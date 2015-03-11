@@ -1,0 +1,45 @@
+<html>
+<head>
+  <title>Nelson Recycling Calendar — Glass or plastic, cans, paper and cardboard?</title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="styles.css" type="text/css">
+  <script src="http://code.jquery.com/jquery-1.11.2.min.js" type="text/javascript"></script>
+  <script>
+  $(function() {
+    Date.prototype.getWeek = function() {
+      var onejan = new Date(this.getFullYear(),0,1);
+      var today = new Date(this.getFullYear(),this.getMonth(),this.getDate());
+      var dayOfYear = ((today - onejan + 86400000)/86400000);
+      return Math.ceil(dayOfYear/7)
+    };
+
+    var today = new Date('2015-02-15');
+    var currentWeekNumber = today.getWeek();
+
+    if(currentWeekNumber % 2 == 0) {
+      var putOut = "Glass";
+      $('body').addClass('glass');
+      $('body').removeClass('other');
+    }
+    else {
+      var putOut = "Plastic, cans, paper and cardboard";
+      $('body').addClass('other');
+      $('body').removeClass('glass');
+    }
+
+    $("#week").html(putOut);
+  });
+  </script>
+</head>
+<body>
+  <div class="outer">
+    <div class="middle">
+      <div class="inner">
+        <i class="fa fa-recycle fa-5x"></i>
+        <div id="week"></div>
+        <div class="credits">A project by <a href="http://www.lucid.co.nz">Lucid</a>. &copy;2015 All rights reserved.</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
