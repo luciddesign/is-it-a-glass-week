@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Recycling Calendar</title>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
   <link rel="stylesheet" href="styles.css" type="text/css">
   <script src="http://code.jquery.com/jquery-1.11.2.min.js" type="text/javascript"></script>
   <script>
@@ -46,18 +47,51 @@
 
     var currentWeekNumber = today.getWeek();
 
-    if(currentWeekNumber % 2 == 0) {
-      var putOut = "Plastic, cans, paper and cardboard";
-      $('body').addClass('other');
-      $('body').removeClass('glass');
-    }
-    else {
-      var putOut = "Glass";
-      $('body').addClass('glass');
-      $('body').removeClass('other');
-    }
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      var geocoder = new google.maps.Geocoder();
+      var lat = pos.coords.latitude;
+      var lng = pos.coords.longitude;
+      var latlng = new google.maps.LatLng(lat, lng);
 
-    $(".put-out").html(putOut);
+      //reverse geocode the coordinates, returning location information.
+      geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+        var result = results[0];
+        var region = '';
+
+        for (var i = 0, len = result.address_components.length; i < len; i++) {
+          var ac = result.address_components[i];
+
+          if (ac.types.indexOf('administrative_area_level_1') >= 0) {
+            region = ac.short_name;
+          }
+        }
+
+        if(getUrlParameter('region') != null) {
+          region = getUrlParameter('region');
+        }
+
+        $('.region').html(region + " ");
+
+        if(region == "Nelson") {
+          if(currentWeekNumber % 2 == 0) {
+            var putOut = "Plastic, cans, paper and cardboard";
+            $('body').addClass('other');
+            $('body').removeClass('glass');
+          }
+          else {
+            var putOut = "Glass";
+            $('body').addClass('glass');
+            $('body').removeClass('other');
+          }
+
+          $(".put-out").html(putOut);
+        }
+        else {
+          $('body').removeClass('glass');
+          $('body').removeClass('other');
+        }
+      });
+    });
   });
   </script>
 </head>
@@ -65,13 +99,10 @@
   <div class="outer">
     <div class="middle">
       <div class="inner">
-        <h1>
-          <strong>Recycling Calendar</strong><br>
-          for Nelson, New Zealand
-        </h1>
+        <h1><strong class="region"></strong>Recycling Calendar</h1>
         <i class="fa fa-recycle fa-5x"></i>
         <h2>This Week</h2>
-        <div class="put-out"></div>
+        <div class="put-out">Sorry, we don&rsquo;t have details for <span class="region">your region</span></div>
       </div>
     </div>
   </div>
