@@ -1,5 +1,8 @@
-<html>
+<html lang="en">
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Recycling Calendar</title>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="styles.css" type="text/css">
@@ -20,11 +23,17 @@
   }
 
   $(function() {
-    Date.prototype.getWeek = function() {
-      var onejan = new Date(this.getFullYear(),0,1);
-      var today = new Date(this.getFullYear(),this.getMonth(),this.getDate());
-      var dayOfYear = ((today - onejan + 86400000)/86400000);
-      return Math.ceil(dayOfYear/7)
+    //Returns ISO 8601 week number and year
+    Date.prototype.getFullWeek = function(){
+      var jan1, w, d = new Date(this);
+      d.setDate(d.getDate()+4-(d.getDay()||7));		// Set to nearest Thursday: current date + 4 - current day number, make Sunday's day number 7
+      jan1 = new Date(d.getFullYear(),0,1);		// Get first day of year
+      w = Math.ceil((((d-jan1)/86400000)+1)/7);		// Calculate full weeks to nearest Thursday
+      return {y: d.getFullYear(), w: w };
+    };
+    //Returns ISO 8601 week number
+    Date.prototype.getWeek = function(){
+      return this.getFullWeek().w;
     };
 
     if(getUrlParameter('date') == null) {
@@ -37,8 +46,6 @@
 
     var currentWeekNumber = today.getWeek();
 
-    console.log(currentWeekNumber);
-
     if(currentWeekNumber % 2 == 0) {
       var putOut = "Plastic, cans, paper and cardboard";
       $('body').addClass('other');
@@ -50,7 +57,7 @@
       $('body').removeClass('other');
     }
 
-    $("#week").html(putOut);
+    $(".put-out").html(putOut);
   });
   </script>
 </head>
@@ -58,8 +65,13 @@
   <div class="outer">
     <div class="middle">
       <div class="inner">
+        <h1>
+          <strong>Recycling Calendar</strong><br>
+          for Nelson, New Zealand
+        </h1>
         <i class="fa fa-recycle fa-5x"></i>
-        <div id="week"></div>
+        <h2>This Week</h2>
+        <div class="put-out"></div>
       </div>
     </div>
   </div>
