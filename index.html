@@ -16,10 +16,6 @@
       {
         return sParameterName[1];
       }
-      else
-      {
-        return null;
-      }
     }
   }
 
@@ -41,30 +37,21 @@
 
     var currentWeekNumber = today.getWeek();
 
+    console.log(currentWeekNumber);
+
     if(currentWeekNumber % 2 == 0) {
-      var putOut = "Glass";
-      $('body').addClass('glass');
-      $('body').removeClass('other');
-    }
-    else {
       var putOut = "Plastic, cans, paper and cardboard";
       $('body').addClass('other');
       $('body').removeClass('glass');
     }
+    else {
+      var putOut = "Glass";
+      $('body').addClass('glass');
+      $('body').removeClass('other');
+    }
 
     $("#week").html(putOut);
   });
-  </script>
-
-  <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-60601388-1', 'auto');
-  ga('send', 'pageview');
-
   </script>
 </head>
 <body>
