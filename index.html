@@ -85,10 +85,14 @@
           }
 
           $(".put-out").html(putOut);
+          $(".nope").hide();
         }
         else {
           $('body').removeClass('glass');
           $('body').removeClass('other');
+
+          $(".put-out").hide();
+          $(".nope").show();
         }
       });
     });
@@ -99,10 +103,15 @@
   <div class="outer">
     <div class="middle">
       <div class="inner">
-        <h1><strong class="region"></strong>Recycling Calendar</h1>
+        <h1><span class="region"></span>Recycling Calendar</h1>
         <i class="fa fa-recycle fa-5x"></i>
         <h2>This Week</h2>
-        <div class="put-out">Sorry, we don&rsquo;t have details for <span class="region">your region</span></div>
+        <div class="put-out"></div>
+        <div class="nope">
+          <p>Sorry, we don&rsquo;t have details for <span class="region">your region</span></p>
+          <div class="createsend-button" style="height:27px;display:inline-block;" data-listid="r/AA/EA1/B92/821DBC95DFD83ECD">
+</div><script type="text/javascript">(function () { var e = document.createElement('script'); e.type = 'text/javascript'; e.async = true; e.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://btn.createsend1.com/js/sb.min.js?v=3'; e.className = 'createsend-script'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(e, s); })();</script>
+        </div>
       </div>
     </div>
   </div>
